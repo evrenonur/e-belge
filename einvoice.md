@@ -18,13 +18,13 @@ XML formatında e arşiv fatura oluşturma
 
 -   **legalMonetaryTotal**: Fatura için yasal para toplamını belirtir, bu toplamlar arasında satır genişletme tutarı, vergi tutarı ve ödenecek tutar gibi çeşitli miktarlar bulunur.
 
--  ** taxTotal**: Fatura ile ilgili vergi bilgilerini ekler, bu bilgilere vergi tutarı ve para birimi dahildir.
+-  **taxTotal**: Fatura ile ilgili vergi bilgilerini ekler, bu bilgilere vergi tutarı ve para birimi dahildir.
 
 -   **subTaxTotal**: Vergiler için alt toplamları ekler ve bu toplamlarda vergilendirilebilir miktar, vergi miktarı ve vergi kategorisi gibi detaylar bulunur.
 
 -   **withholdingTaxTotal**: Vergi kesintisi bilgilerini belirtir.
 
--  ** allowanceCharge**: Faturaya indirim veya ek ücretler ekler.
+-  **allowanceCharge**: Faturaya indirim veya ek ücretler ekler.
 
 -   **addInvoiceLine**: Her fatura satırı için detayları ekler, bu detaylar arasında satır kimliği, miktar, birim kodu, satır genişletme tutarı, ürün adı ve fiyat tutarı bulunur.
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)

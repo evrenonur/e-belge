@@ -4,6 +4,29 @@
 
 XML formatında e arşiv fatura oluşturma
 
+-   **basicInformation**: Faturaya temel bilgileri ekler, bu bilgiler arasında sürüm, profil kimliği, düzenleme tarihi ve para birimi kodları bulunur.
+
+-   **additionalDocumentReference**: Faturaya ek belge referansları ekler, bu belgelere ekler gibi ekler.
+
+-   **accountingSupplierParty:** Tedarikçi veya satıcı hakkında detayları ekler, bu detaylar arasında iletişim bilgileri ve vergi ile ilgili detaylar bulunur.
+
+-   **accountingCustomerParty**: Müşteri veya alıcı hakkında detayları ekler, bu detaylar arasında iletişim bilgileri ve vergi ile ilgili detaylar bulunur.
+
+-   **paymentTerms**: Fatura için ödeme koşullarını belirler, bu koşullar arasında notlar ve para birimi detayları bulunur.
+
+-   **taxExchangeRate, pricingExchangeRate, paymentExchangeRate, paymentAlternativeExchangeRate**: Vergiler, fiyatlandırma, ödemeler ve alternatif ödemeler için döviz kurlarını tanımlar.
+
+-   **legalMonetaryTotal**: Fatura için yasal para toplamını belirtir, bu toplamlar arasında satır genişletme tutarı, vergi tutarı ve ödenecek tutar gibi çeşitli miktarlar bulunur.
+
+-  ** taxTotal**: Fatura ile ilgili vergi bilgilerini ekler, bu bilgilere vergi tutarı ve para birimi dahildir.
+
+-   **subTaxTotal**: Vergiler için alt toplamları ekler ve bu toplamlarda vergilendirilebilir miktar, vergi miktarı ve vergi kategorisi gibi detaylar bulunur.
+
+-   **withholdingTaxTotal**: Vergi kesintisi bilgilerini belirtir.
+
+-  ** allowanceCharge**: Faturaya indirim veya ek ücretler ekler.
+
+-   **addInvoiceLine**: Her fatura satırı için detayları ekler, bu detaylar arasında satır kimliği, miktar, birim kodu, satır genişletme tutarı, ürün adı ve fiyat tutarı bulunur.
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 
 

@@ -1,0 +1,19 @@
+{
+    "name": "evrenonur/e-belge",
+    "description": "E-Belge XML oluşturucu",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Evrenonur\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Onur Evren",
+            "email": "onur.evren.1999@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

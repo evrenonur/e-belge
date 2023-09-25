@@ -1,8 +1,8 @@
 
 
-# E Arşiv Fatura Oluşturma
+# EFatura Oluşturma
 
-XML formatında e arşiv fatura oluşturma
+XML formatında e-fatura fatura oluşturma
 
 -   **basicInformation**: Faturaya temel bilgileri ekler, bu bilgiler arasında sürüm, profil kimliği, düzenleme tarihi ve para birimi kodları bulunur.
 
@@ -42,206 +42,138 @@ composer require evrenonur/e-belge
 ## Kullanım
 ```php
 <?php
-use Evrenonur\EInvoice;
-require_once 'vendor/autoload.php';
 
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$invoice = new EInvoice(isPerson: false);
-$basicInformation = $invoice->basicInformation(
-    profileId: 1,
-    id: 1,
-    issueDate: '2021-09-01',
+$fatura = new \Evrenonur\EFatura();
+
+$fatura->info(
+    profileId: 'TEMELFATURA',
+    itemType: 'SATIS',
+    note: 'Dört Yüz Elli Altı Türk Lirası',
+    currency: 'TRY',
+    issueDate: '2023-09-01',
     issueTime: '12:00:00',
-    invoiceTypeCode: 'SATIS',
-    note: 'Yalnız #Dört Yüz Elli Altı Türk Lirası# Altmış Kuruş',
-    documentCurrencyCode: 'TRY',
-    taxCurrencyCode: 'TRY',
-    pricingCurrencyCode: 'TRY',
-    paymentCurrencyCode: 'TRY',
-    paymentAlternativeCurrencyCode: 'TRY',
-    lineCountNumeric: 1
+    lineCount: 1
 );
-$additionalDocumentReference = $invoice->additionalDocumentReference(
-    id: 1,
-    issueDate: '2021-09-01',
-    documentType: 'XSLT',
-    base64EncodedXslt: 'base64EncodedXslt',
-    filename: 'filename',
+$fatura->additionalDocumentReference("base64xslt");
+$fatura->accountingSupplierParty(
+    webSite: 'https://www.onurkucukkece.com',
+    vkn: '9000068418',
+    ticaretSicilNo: '0',
+    mersisNo: '0',
+    name: 'Uyumsoft',
+    adres: 'Uyumsoft Plaza',
+    ilce: 'Ümraniye',
+    il: 'İstanbul',
+    postakodu: '34762',
+    ulke: 'Türkiye',
+    vergiDairesi: 'Ümraniye VD',
+    telefon: '0216 999 99 99',
+    fax: '0216 999 99 99',
+    mail:'mail@mail.com'
 );
-$accountingSupplierParty = $invoice->accountingSupplierParty(
-    websiteUri: 'https://www.onur.com.tr',
-    vkn: '35935923964',
-    ticaretSicilNo: '123456',
-    mersisNo: '1234567890123456',
-    name: 'Onur Yazılım',
-    streetName: 'Kızılırmak Mah. 1453 Sok. No: 1',
-    citySubdivisionName: 'Çankaya',
-    cityName: 'Ankara',
-    postalZone: '06520',
-    region: 'TR',
-    countryName: 'Ankara',
-    taxSchemeName: 'Mamak Vergi Dairesi',
-    telephone: '0312 123 45 67',
-    telefax: '0312 123 45 67',
-    electronicMail: 'mail@mail.com'
+$fatura->accountingCustomerParty(
+    webSite: 'https://www.onurkucukkece.com',
+    vkn: '9000068418',
+    name: 'Uyumsoft',
+    adres: 'Uyumsoft Plaza',
+    ilce: 'Ümraniye',
+    il: 'İstanbul',
+    postakodu: '34762',
+    ulke: 'Türkiye',
+    vergiDairesi: 'Ümraniye VD',
+    telefon: '0216 999 99 99',
+    fax: '0216 999 99 99',
+    mail:'mail@mail.com'
 );
-$accountingCustomerParty = $invoice->accountingCustomerParty(
-    websiteUri: 'https://www.evren.com.tr',
-    vkn: '111111111',
-    room: '',
-    streetName: 'Kızılırmak Mah. 1453 Sok. No: 1',
-    buildingName: 'Bina',
-    buildingNumber: '1',
-    citySubdivisionName: 'Çankaya',
-    cityName: 'Ankara',
-    postalZone: '06520',
-    region: 'TR',
-    countryName: 'Ankara',
-    taxSchemeName: 'Mamak Vergi Dairesi',
-    telephone: '0312 123 45 67',
-    telefax: '0312 123 45 67',
-    electronicMail: 'mail@mail.com',
-    firstName: 'Okan', familyName: 'Evren',
+$fatura->paymentTerms();
+$fatura->taxExchangeRate();
+$fatura->pricingExchangeRate();
+$fatura->paymentExchangeRate();
+$fatura->paymentAlternativeExchangeRate();
+$fatura->legalMonetaryTotal(
+    lineExtensionAmount: '1600.00',//Toplam Satır Tutarı
+    taxExclusiveAmount: '1600.00',//Toplam Satır Tutarı
+    taxInclusiveAmount: '2013.20',//Vergiler Dahil Toplam Tutar
+    allowanceTotalAmount: '10.00', //Toplam İskonto Tutarı
+    chargeTotalAmount: '150.00',//Arttırım Tutarı
+    payableAmount: '1913.20',//Ödenecek Tutar
 );
-$paymentTerms = $invoice->paymentTerms(
-    note: '#Ya#',
-    penaltySurchargePercent: 18,
-    amount: 100,
-    currencyID: 'TRY',
-);
-$taxExchangeRate = $invoice->taxExchangeRate(
-    sourceCurrencyCode: 'TRY',
-    targetCurrencyCode: 'TRY',
-    calculationRate: 1,
-    date: '2021-09-01',
-);
-$pricingExchangeRate = $invoice->pricingExchangeRate(
-    sourceCurrencyCode: 'TRY',
-    targetCurrencyCode: 'TRY',
-    calculationRate: 1,
-    date: '2021-09-01',
-);
-$paymentExchangeRate = $invoice->paymentExchangeRate(
-    sourceCurrencyCode: 'TRY',
-    targetCurrencyCode: 'TRY',
-    calculationRate: 1,
-    date: '2021-09-01',
-);
-
-$paymentAlternativeExchangeRate = $invoice->paymentAlternativeExchangeRate(
-    sourceCurrencyCode: 'TRY',
-    targetCurrencyCode: 'TRY',
-    calculationRate: 1,
-    date: '2021-09-01',
-);
-
-$legalMonetaryTotal = $invoice->legalMonetaryTotal(
-    lineExtensionAmount: 100,
-    taxExclusiveAmount: 100,
-    taxInclusiveAmount: 100,
-    allowanceTotalAmount: 100,
-    chargeTotalAmount: 100,
-    payableAmount: 100,
-);
-
-$taxTotalElement = $invoice->taxTotal(
-    null,
-    taxAmount: 100,
-    currencyID: 'USD'
-);
-$subTaxTotalElement = $invoice->subTaxTotal(
-    $taxTotalElement,
-    taxableAmount: 100,
-    taxAmount: 100,
-    percent: 18,
-    currencyID: 'USD',
-    taxCategory: [
-        'taxExemptionReasonCode' => '123',
-        'taxExemptionReason' => 'Some Reason',
+$taxSubtotals = [
+    [
+        'taxableAmount' => '740',
+        'taxAmount' => '133.20',
+        'percent' => '20.00',
+        'exemptionReasonCode' => '351',
+        'exemptionReason' => '351 İstisna Olmayan Diğer',
         'taxSchemeName' => 'KDV',
-        'taxSchemeCode' => '0015',
+        'taxTypeCode' => '0015',
+        'currency' => 'TRY',
     ]
+];
+
+$fatura->createTaxTotal(
+    taxAmount: '133.20',
+    taxSubtotals: $taxSubtotals,
 );
 
-
-$witholdingTaxTotalElement = $invoice->withholdingTaxTotal(
-    invoiceElement: null,
-    taxAmount: 100,
-    currencyID: 'USD',
-);
-$subTaxTotalElement = $invoice->subTaxTotal(
-    $witholdingTaxTotalElement,
-    taxableAmount: 100,
-    taxAmount: 100,
-    percent: 18,
-    currencyID: 'USD',
-    taxCategory: [
-        'taxExemptionReasonCode' => '123',
-        'taxExemptionReason' => 'Some Reason',
-        'taxSchemeName' => 'KDV',
-        'taxSchemeCode' => '0015',
-    ]
+$fatura->createWithholdingTaxTotal(
+    taxAmount: '133.20',
+    taxSubtotals: $taxSubtotals,
 );
 
-$invoiceLine1 = $invoice->addInvoiceLine(
-    lineID: 1,
-    invoicedQuantity: 1,
+$item1 = $fatura->createInvoiceLine(
+    id: '1',
     unitCode: 'C62',
-    lineExtensionAmount: 100,
-    currencyID: 'USD',
-    itemName: 'Test Item',
-    priceAmount: 100,
+    invoicedQuantity: '2.0000',
+    lineExtensionAmount: '146.00',
+    allowanceChargeData: [
+        'chargeIndicator' => 'false',
+        'allowanceChargeReason' => '',
+        'multiplierFactorNumeric' => '0.2700',
+        'amount' => '54',
+    ],
+    itemName: 'Stok Adı',
+    priceAmount: '100.000000000000'
+);
+$fatura->createTaxTotal(
+    taxAmount: '133.20',
+    taxSubtotals: $taxSubtotals,
+    element: $item1,
 );
 
-$allowanceCharge = $invoice->allowanceCharge(
-    invoiceElement: $invoiceLine1,
-    chargeIndicator: false,
-    allowanceChargeReason: 'Test Reason',
-    multiplierFactorNumeric: 1,
-    amount: 100,
-    currencyID: 'USD',
+$fatura->createWithholdingTaxTotal(
+    taxAmount: '133.20',
+    taxSubtotals: $taxSubtotals,
+    element: $item1,
+);
+
+$item2 = $fatura->createInvoiceLine(
+    id: '2',
+    unitCode: 'C62',
+    invoicedQuantity: '2.0000',
+    lineExtensionAmount: '146.00',
+    allowanceChargeData: [
+        'chargeIndicator' => 'false',
+        'allowanceChargeReason' => '',
+        'multiplierFactorNumeric' => '0.2700',
+        'amount' => '54',
+    ],
+    itemName: 'Stok Adı',
+    priceAmount: '100.000000000000'
+);
+$fatura->createTaxTotal(
+    taxAmount: '133.20',
+    taxSubtotals: $taxSubtotals,
+    element: $item2,
 );
 
 
-$taxTotalElement = $invoice->taxTotal(
-    $invoiceLine1,
-    taxAmount: 100,
-    currencyID: 'USD'
-);
-$subTaxTotalElement = $invoice->subTaxTotal(
-    $taxTotalElement,
-    taxableAmount: 100,
-    taxAmount: 100,
-    percent: 18,
-    currencyID: 'USD',
-    taxCategory: [
-        'taxExemptionReasonCode' => '123',
-        'taxExemptionReason' => 'Some Reason',
-        'taxSchemeName' => 'KDV',
-        'taxSchemeCode' => '0015',
-    ]
-);
+header('Content-Type: text/xml');
+echo $fatura->toXml();
 
-$witholdingTaxTotalElement = $invoice->withholdingTaxTotal(
-    invoiceElement: $invoiceLine1,
-    taxAmount: 100,
-    currencyID: 'USD',
-);
-$subTaxTotalElement = $invoice->subTaxTotal(
-    $witholdingTaxTotalElement,
-    taxableAmount: 100,
-    taxAmount: 100,
-    percent: 18,
-    currencyID: 'USD',
-    taxCategory: [
-        'taxExemptionReasonCode' => '123',
-        'taxExemptionReason' => 'Some Reason',
-        'taxSchemeName' => 'KDV',
-        'taxSchemeCode' => '0015',
-    ]
-);
 
-echo $invoice->toXML();
 ```
 
 ## Geri Bildirim

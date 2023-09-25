@@ -137,9 +137,15 @@ class EInvoice
         $contact->addChild('cbc:Telephone', $telephone, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $contact->addChild('cbc:Telefax', $telefax, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $contact->addChild('cbc:ElectronicMail', $electronicMail, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
-        $person = $party->addChild('cac:Person', '', 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
-        $person->addChild('cbc:FirstName', $firstName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
-        $person->addChild('cbc:FamilyName', $familyName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+
+        if ($this->isPerson){
+            $person = $party->addChild('cac:Person', '', 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $person->addChild('cbc:FirstName', $firstName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $person->addChild('cbc:FamilyName', $familyName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        }else{
+            $partyName = $party->addChild('cac:PartyName', '', 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $partyName->addChild('cbc:Name', $firstName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        }
         return $this->invoice;
     }
 

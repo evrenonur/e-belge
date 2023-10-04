@@ -147,6 +147,47 @@ class EFatura
         $contact->addChild('cbc:Telefax', $fax, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $contact->addChild('cbc:ElectronicMail', $mail, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
     }
+
+    public function buyerCustomerParty($webSite,$vkn,$name,$adres,$ilce,$il,$postakodu = null,$ulke= null,$vergiDairesi= null,$telefon= null,$fax= null,$mail= null)
+    {
+        $accountingCustomerParty = $this->xml->addChild('cac:BuyerCustomerParty', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+
+        // Party öğesi
+        $party = $accountingCustomerParty->addChild('cac:Party', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+
+        // PartyIdentification öğesi
+        $partyIdentification = $party->addChild('cac:PartyIdentification', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+        $partyIdentification->addChild('cbc:ID', "EXPORT", 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2')->addAttribute('schemeID', 'PARTYTYPE');
+
+        // PartyName öğesi
+        $partyName = $party->addChild('cac:PartyName', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+        $partyName->addChild('cbc:Name', $name, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+
+        // PostalAddress öğesi
+        $postalAddress = $party->addChild('cac:PostalAddress', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+        $postalAddress->addChild('cbc:Room', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $postalAddress->addChild('cbc:StreetName', $adres, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $postalAddress->addChild('cbc:BuildingName', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $postalAddress->addChild('cbc:BuildingNumber', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $postalAddress->addChild('cbc:CitySubdivisionName', $ilce, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $postalAddress->addChild('cbc:CityName', $il, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $postalAddress->addChild('cbc:PostalZone', $postakodu, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $postalAddress->addChild('cbc:Region', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+
+        // Country öğesi
+        $country = $postalAddress->addChild('cac:Country', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+        $country->addChild('cbc:Name', $ulke, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+
+        $partyLegalEntity = $party->addChild('cac:PartyLegalEntity', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+        $partyLegalEntity->addChild('cbc:RegistrationName', $name, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $partyLegalEntity->addChild('cbc:CompanyID', $vkn, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+
+        // Contact öğesi
+        $contact = $party->addChild('cac:Contact', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+        $contact->addChild('cbc:Telephone', $telefon, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $contact->addChild('cbc:Telefax', $fax, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $contact->addChild('cbc:ElectronicMail', $mail, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+    }
     public function paymentTerms($not = null,$penaltySurchargePercent = 0,$amount = 0,$currency = 'TRY')
     {
         $paymentTerms = $this->xml->addChild('cac:PaymentTerms', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
@@ -244,7 +285,7 @@ class EFatura
     }
 
 
-    public function createInvoiceLine($id, $unitCode, $invoicedQuantity, $lineExtensionAmount, $allowanceChargeData, $itemName, $priceAmount,$currency = 'TRY')
+    public function createInvoiceLine($id, $unitCode, $invoicedQuantity, $lineExtensionAmount, $allowanceChargeData, $itemName, $priceAmount,$currency = 'TRY',$isExport = false,$deliveryTermId= null,$gipt = null,$transportModeCode = null)
     {
         $invoiceLine = $this->xml->addChild('cac:InvoiceLine', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
         $invoiceLine->addChild('cbc:ID', $id, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
@@ -252,12 +293,39 @@ class EFatura
         $invoicedQuantityElement = $invoiceLine->addChild('cbc:InvoicedQuantity', $invoicedQuantity, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $invoicedQuantityElement->addAttribute('unitCode', $unitCode);
         $invoiceLine->addChild('cbc:LineExtensionAmount', $lineExtensionAmount, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2')->addAttribute('currencyID', $currency);
-        $allowanceCharge = $invoiceLine->addChild('cac:AllowanceCharge', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
-        $allowanceCharge->addChild('cbc:ChargeIndicator', $allowanceChargeData['chargeIndicator'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
-        $allowanceCharge->addChild('cbc:AllowanceChargeReason', $allowanceChargeData['allowanceChargeReason'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
-        $allowanceCharge->addChild('cbc:MultiplierFactorNumeric', $allowanceChargeData['multiplierFactorNumeric'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
-        $allowanceChargeAmount = $allowanceCharge->addChild('cbc:Amount', $allowanceChargeData['amount'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
-        $allowanceChargeAmount->addAttribute('currencyID', $currency);
+
+        if ($isExport){
+            $delivery = $invoiceLine->addChild('cac:Delivery', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $deliveryAdress = $delivery->addChild('cac:DeliveryAddress', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $deliveryAdress->addChild('cbc:Room', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryAdress->addChild('cbc:StreetName', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryAdress->addChild('cbc:BuildingName', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryAdress->addChild('cbc:BuildingNumber', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryAdress->addChild('cbc:CitySubdivisionName', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryAdress->addChild('cbc:CityName', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryAdress->addChild('cbc:PostalZone', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryAdress->addChild('cbc:Region', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryAdress->addChild('cbc:Region', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $country = $deliveryAdress->addChild('cac:Country', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $country->addChild('cbc:Name', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $deliveryTerms = $delivery->addChild('cac:DeliveryTerms', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $deliveryTerms->addChild('cbc:ID', $deliveryTermId, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2')->addAttribute('schemeID', 'INCOTERMS');
+
+            $shipment = $invoiceLine->addChild('cac:Shipment', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $shipment->addChild('cbc:ID', $id, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $goodsItem = $shipment->addChild('cac:GoodsItem', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $goodsItem->addChild('cbc:RequiredCustomsID', $gipt, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $shipmentStage = $shipment->addChild('cac:ShipmentStage', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $shipmentStage->addChild('cbc:TransportModeCode', $transportModeCode, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        }else{
+            $allowanceCharge = $invoiceLine->addChild('cac:AllowanceCharge', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $allowanceCharge->addChild('cbc:ChargeIndicator', $allowanceChargeData['chargeIndicator'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $allowanceCharge->addChild('cbc:AllowanceChargeReason', $allowanceChargeData['allowanceChargeReason'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $allowanceCharge->addChild('cbc:MultiplierFactorNumeric', $allowanceChargeData['multiplierFactorNumeric'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $allowanceChargeAmount = $allowanceCharge->addChild('cbc:Amount', $allowanceChargeData['amount'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+            $allowanceChargeAmount->addAttribute('currencyID', $currency);
+        }
+
         $item = $invoiceLine->addChild('cac:Item', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
         $item->addChild('cbc:Name', $itemName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $price = $invoiceLine->addChild('cac:Price', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');

@@ -311,7 +311,7 @@ class EFatura
             $deliveryTerms = $delivery->addChild('cac:DeliveryTerms', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
             $deliveryTerms->addChild('cbc:ID', $deliveryTermId, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2')->addAttribute('schemeID', 'INCOTERMS');
 
-            $shipment = $invoiceLine->addChild('cac:Shipment', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
+            $shipment = $delivery->addChild('cac:Shipment', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
             $shipment->addChild('cbc:ID', $id, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
             $goodsItem = $shipment->addChild('cac:GoodsItem', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
             $goodsItem->addChild('cbc:RequiredCustomsID', $gipt, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');

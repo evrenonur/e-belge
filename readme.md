@@ -1,10 +1,11 @@
 
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+[![Total Downloads](https://img.shields.io/packagist/dt/evrenonur/e-belge.svg)](https://packagist.org/packages/evrenonur/e-belge)
 
 # E-Belge Fatura Oluşturma
 
 XML formatında E-Belge faturası oluşturmak için aşağıdaki adımları takip edebilirsiniz. XML (eXtensible Markup Language), elektronik belgelerin ve verilerin taşınması için yaygın olarak kullanılan bir dosya biçimidir. E-Arşiv faturası oluştururken, belgenin gereksinimlerine ve yerel düzenlemelere uygun olarak XML yapısını oluşturmanız gerekir.
 
-![Build](https://img.shields.io/badge/build-passing-brightgreen)
 
 
 

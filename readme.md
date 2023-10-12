@@ -1,6 +1,8 @@
 
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 [![Total Downloads](https://img.shields.io/packagist/dt/evrenonur/e-belge.svg)](https://packagist.org/packages/evrenonur/e-belge)
+![GitHub repo size](https://img.shields.io/github/repo-size/evrenonur/e-belge)
+
 
 # E-Belge Fatura Oluşturma
 

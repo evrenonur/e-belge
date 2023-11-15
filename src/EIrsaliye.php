@@ -203,12 +203,11 @@ class EIrsaliye
         $orderLineReferenceLineID,
         $shipmentID, $invoiceLineID, $invoicedQuantity, $lineExtensionAmount, $itemWithinInvoiceLineName, $priceAmount,
         $itemName = null,
-        $additionalItemIdentification = null,
         $itemDescription = null,
         $brandName = null,
         $buyersItemIdentification = null,
         $sellersItemIdentification = null,
-
+        $additionalItemIdentification = null,
         )
     {
         $despatchLine = $this->xml->addChild('cac:DespatchLine', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
@@ -229,7 +228,7 @@ class EIrsaliye
         $orderLineReference->addChild('cbc:LineID', $orderLineReferenceLineID, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
 
 
-        if ($itemName != null){
+        if ($itemName != null && $itemDescription != null && $brandName != null && $buyersItemIdentification != null && $sellersItemIdentification != null){
             $item = $despatchLine->addChild('cac:Item', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
             $item->addChild('cbc:Description', $itemDescription, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
             $item->addChild('cbc:Name', $itemName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');

@@ -21,6 +21,7 @@ composer require evrenonur/e-belge
 
 ## Kullanım
 [E-Arşiv](einvoice.md) ve [E-Fatura](einvoice.md) için ayrı ayrı kullanımlar mevcuttur.
+[E-İrsaliye](eirsaliye.md) için ayrı kullanımlar mevcuttur.
 
 
 

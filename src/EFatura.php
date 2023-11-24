@@ -22,12 +22,12 @@ class EFatura
                                      xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"></Invoice>');
     }
 
-    public function info($profileId,$itemType,$note,$currency,$issueDate,$issueTime,$lineCount): void
+    public function info($profileId,$itemType,$note,$currency,$issueDate,$issueTime,$lineCount,$id = null): void
     {
         $this->xml->addChild('cbc:UBLVersionID', '2.1', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:CustomizationID', 'TR1.2', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:ProfileID', $profileId, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
-        $this->xml->addChild('cbc:ID', '', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $this->xml->addChild('cbc:ID', $id, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:CopyIndicator', 'false', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:UUID', '', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:IssueDate', $issueDate, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');

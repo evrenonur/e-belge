@@ -1,4 +1,5 @@
 <?php
+
 namespace Evrenonur;
 class EIrsaliye
 {
@@ -17,12 +18,12 @@ class EIrsaliye
                 xmlns="urn:oasis:names:specification:ubl:schema:xsd:DespatchAdvice-2"></DespatchAdvice>');
     }
 
-    public function info($profileId,$itemType,$issueDate,$issueTime,$lineCount): void
+    public function info($profileId, $itemType, $issueDate, $issueTime, $lineCount, $id = null): void
     {
         $this->xml->addChild('cbc:UBLVersionID', '2.1', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:CustomizationID', 'TR1.2', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:ProfileID', $profileId, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
-        $this->xml->addChild('cbc:ID', '', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
+        $this->xml->addChild('cbc:ID', $id, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:CopyIndicator', 'false', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:UUID', '', 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:IssueDate', $issueDate, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
@@ -30,6 +31,7 @@ class EIrsaliye
         $this->xml->addChild('cbc:DespatchAdviceTypeCode', $itemType, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $this->xml->addChild('cbc:LineCountNumeric', $lineCount, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
     }
+
     public function additionalDocumentReference($value): void
     {
         $additionalDocumentReference = $this->xml->addChild('cac:AdditionalDocumentReference');
@@ -44,9 +46,10 @@ class EIrsaliye
         $embeddedDocumentBinaryObject->addAttribute('mimeCode', 'application/xml');
         $embeddedDocumentBinaryObject->addAttribute('encodingCode', 'Base64');
         $embeddedDocumentBinaryObject->addAttribute('characterSetCode', 'UTF-8');
-        $embeddedDocumentBinaryObject->addAttribute('filename', uniqid() .'.xslt');
+        $embeddedDocumentBinaryObject->addAttribute('filename', uniqid() . '.xslt');
     }
-    public function despatchSupplierParty($webSite,$vkn,$ticaretSicilNo ,$mersisNo,$name,$adres,$ilce,$il,$postakodu = null,$ulke= null,$vergiDairesi= null,$telefon= null,$fax= null,$mail= null): void
+
+    public function despatchSupplierParty($webSite, $vkn, $ticaretSicilNo, $mersisNo, $name, $adres, $ilce, $il, $postakodu = null, $ulke = null, $vergiDairesi = null, $telefon = null, $fax = null, $mail = null): void
     {
         $accountingSupplierParty = $this->xml->addChild('cac:DespatchSupplierParty', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
 
@@ -94,7 +97,8 @@ class EIrsaliye
         $contact->addChild('cbc:Telefax', $fax, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $contact->addChild('cbc:ElectronicMail', $mail, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
     }
-    public function deliveryCustomerParty($webSite,$vkn,$name,$adres,$ilce,$il,$postakodu = null,$ulke= null,$vergiDairesi= null,$telefon= null,$fax= null,$mail= null)
+
+    public function deliveryCustomerParty($webSite, $vkn, $name, $adres, $ilce, $il, $postakodu = null, $ulke = null, $vergiDairesi = null, $telefon = null, $fax = null, $mail = null)
     {
         $accountingCustomerParty = $this->xml->addChild('cac:DeliveryCustomerParty', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
         // Party öğesi
@@ -182,7 +186,7 @@ class EIrsaliye
         $despatch->addChild('cbc:ActualDespatchDate', $despatchDate, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         $despatch->addChild('cbc:ActualDespatchTime', $despatchTime, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
 
-        if ($transportEquipmentIDs != null){
+        if ($transportEquipmentIDs != null) {
             $transportHandlingUnit = $shipment->addChild('cac:TransportHandlingUnit', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
             foreach ($transportEquipmentIDs as $equipmentID) {
                 $transportEquipment = $transportHandlingUnit->addChild('cac:TransportEquipment', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
@@ -208,7 +212,7 @@ class EIrsaliye
         $buyersItemIdentification = null,
         $sellersItemIdentification = null,
         $additionalItemIdentification = null,
-        )
+    )
     {
         $despatchLine = $this->xml->addChild('cac:DespatchLine', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
 
@@ -228,7 +232,7 @@ class EIrsaliye
         $orderLineReference->addChild('cbc:LineID', $orderLineReferenceLineID, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
 
 
-        if ($itemName != null && $itemDescription != null && $brandName != null && $buyersItemIdentification != null && $sellersItemIdentification != null){
+        if ($itemName != null && $itemDescription != null && $brandName != null && $buyersItemIdentification != null && $sellersItemIdentification != null) {
             $item = $despatchLine->addChild('cac:Item', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
             $item->addChild('cbc:Description', $itemDescription, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
             $item->addChild('cbc:Name', $itemName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
@@ -242,14 +246,14 @@ class EIrsaliye
             $sellersItemIdentificationLine = $item->addChild('cac:SellersItemIdentification', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
             $sellersItemIdentificationLine->addChild('cbc:ID', $sellersItemIdentification, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
 
-            if ($additionalItemIdentification != null){
+            if ($additionalItemIdentification != null) {
                 foreach ($additionalItemIdentification as $itemIdentification) {
                     $additionalItemIdentificationLine = $item->addChild('cac:AdditionalItemIdentification', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
                     $additionalItemIdentificationLine->addChild('cbc:ID', $itemIdentification['id'], 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2')->addAttribute('schemeID', $itemIdentification['value']);
                 }
             }
 
-        }else{
+        } else {
             $item = $despatchLine->addChild('cac:Item', null, 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2');
             $item->addChild('cbc:Name', $itemName, 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2');
         }
